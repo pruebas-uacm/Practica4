@@ -23,11 +23,13 @@ import org.dbunit.operation.DatabaseOperation;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 
 import mx.edu.uacm.registro.Application;
 import mx.edu.uacm.registro.domain.Factura;
@@ -52,7 +54,7 @@ public class PersonaTest {
 	@Autowired
 	DataSource dataSource;
 	
-	@After
+	@Before
 	public  void configurar() throws SQLException, DatabaseUnitException, FileNotFoundException, IOException {
 		
 		Connection conn = dataSource.getConnection();
@@ -66,16 +68,65 @@ public class PersonaTest {
 		 
 		 IDataSet dataSetPersona = builder.build(new File(System.getProperty("user.dir") + System.getProperty("file.separator")
 			+ "datasets/persona.xml"));
+		
 		 
-		 DatabaseOperation.INSERT.execute(connection, dataSetFactura);
+		 DatabaseOperation.CLEAN_INSERT.execute(connection, dataSetPersona);
+		 DatabaseOperation.CLEAN_INSERT.execute(connection, dataSetFactura);
 		 
 	}
 	
+
+	
 	@Test
-	public void insertarPersonaTest(){
+	public void actualizarPersonaTest(){
 		
-		log.debug("Entrando al metodo insertarPersonaTest");
+		log.debug("Entrando al metodo actualizarPersonaTest");
+		//Dato de Prueba
+		String nombrePersona = "Teacher";
+		String nombreABuscar = "Profesor";
 		
+		//Buscar a la persona con mi dato de prueba
+		Persona personaObtenida = personaRepository.findByNombre(nombreABuscar);
+		
+		//Asegurando que el obj Persona no sea nulo
+		Assert.assertNotNull(personaObtenida);
+		
+		//modificando el nombre de la persona obtenida
+		personaObtenida.setNombre(nombrePersona);
+		
+		//persistencia de la entidad persona
+		personaRepository.save(personaObtenida);
+		
+		
+		//Obtener a la persona una vez que se actualizo el nombre
+		personaObtenida = personaRepository.findByNombre(nombrePersona);
+		
+		Assert.assertTrue(
+				nombrePersona.equals(
+						personaObtenida.getNombre()));
+
+		
+	}
+	
+	@After
+	public  void terminar() throws SQLException, DatabaseUnitException, FileNotFoundException, IOException {
+		
+		Connection conn = dataSource.getConnection();
+		IDatabaseConnection connection = new DatabaseConnection(conn);
+		DatabaseConfig dbConfig = connection.getConfig();
+		 dbConfig.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new MySqlDataTypeFactory());
+		 FlatXmlDataSetBuilder builder = new FlatXmlDataSetBuilder();
+		 
+		 IDataSet dataSetFactura = builder.build(new File(System.getProperty("user.dir") + System.getProperty("file.separator")
+			+ "datasets/factura.xml"));
+		 
+		 IDataSet dataSetPersona = builder.build(new File(System.getProperty("user.dir") + System.getProperty("file.separator")
+			+ "datasets/persona.xml"));
+		 
+		 DatabaseOperation.DELETE.execute(connection, dataSetFactura);
+		 DatabaseOperation.DELETE.execute(connection, dataSetPersona);
+		
+		 
 	}
 
 }
