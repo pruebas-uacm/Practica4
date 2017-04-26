@@ -36,6 +36,10 @@ public class Factura {
 		
 	}
 	
+	public Factura() {
+		// TODO Auto-generated constructor stub
+	}
+	
 
 	/**
 	 * @return the id

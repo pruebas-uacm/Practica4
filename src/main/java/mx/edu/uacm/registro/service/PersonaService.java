@@ -5,7 +5,7 @@ import mx.edu.uacm.registro.domain.Persona;
 public interface PersonaService {
 	
 	
-	void agregarPersona(Persona persona);
+	String agregarPersona(Persona persona);
 	
 	Persona buscarPersonaXNombre(String nombre);
 

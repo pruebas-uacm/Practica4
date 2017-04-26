@@ -1,13 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
-  <factura id="1" fecha="2017-03-29 14:07:24.0" monto="300.00" Persona_id="5"/>
-  <factura id="2" fecha="2017-03-29 14:07:24.0" monto="600.00" Persona_id="5"/>
-  <factura id="3" fecha="2017-03-29 14:10:56.0" monto="300.00" Persona_id="5"/>
-  <factura id="4" fecha="2017-03-29 14:10:56.0" monto="600.00" Persona_id="5"/>
-  <factura id="5" fecha="2017-03-29 14:14:36.0" monto="300.00" Persona_id="5"/>
-  <factura id="6" fecha="2017-03-29 14:14:36.0" monto="600.00" Persona_id="5"/>
-  <factura id="7" fecha="2017-03-29 14:27:59.0" monto="300.00" Persona_id="6"/>
-  <factura id="8" fecha="2017-03-29 14:27:59.0" monto="600.00" Persona_id="6"/>
-  <factura id="9" fecha="2017-03-29 14:29:16.0" monto="300.00" Persona_id="7"/>
-  <factura id="10" fecha="2017-03-29 14:29:16.0" monto="600.00" Persona_id="7"/>
+  <factura id="1" fecha="2017-03-29 14:07:24.0" monto="300.00" Persona_id="1"/>
+  <factura id="2" fecha="2017-03-29 14:20:24.0" monto="301.00" Persona_id="1"/>
 </dataset>

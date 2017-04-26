@@ -1,12 +1,4 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
   <persona id="1" nombre="Profesor" rfc="MEZS" total="1000.00"/>
-  <persona id="2" nombre="Guru" rfc="MEZS" total="1000.00"/>
-  <persona id="3" nombre="Rebecca" rfc="MEZS" total="1000.00"/>
-  <persona id="4" nombre="Christian1" rfc="MEZS" total="1000.00"/>
-  <persona id="5" nombre="Christian2" rfc="MEZS" total="1000.00"/>
-  <persona id="6" nombre="Christia3" rfc="MEZS" total="1000.00"/>
-  <persona id="7" nombre="Francisco" rfc="MEZS" total="1000.00"/>
-  <persona id="8" nombre="Neymar" rfc="Messd" total="1000.00"/>
-  <persona id="9" nombre="Ale" rfc="MEZS" total="1000.00"/>
 </dataset>

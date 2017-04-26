@@ -2,6 +2,8 @@ package mx.edu.uacm.registro.service.impl;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import mx.edu.uacm.registro.domain.Persona;
@@ -12,6 +14,9 @@ import mx.edu.uacm.registro.service.PersonaService;
 public class PersonaServiceImpl implements PersonaService {
 	
 
+	private static final String E003 = "E003";
+
+
 	private static final int LOGITUD_MAX = 70;
 
 
@@ -21,14 +26,24 @@ public class PersonaServiceImpl implements PersonaService {
 	@Autowired
 	PersonaRepository personaRepository;
 	
-	public void agregarPersona(Persona persona) {
+	@Autowired
+	MessageSource messages;
+	
+	
+	public String agregarPersona(Persona persona) {
 		
 		if(log.isDebugEnabled())
 			log.debug("Estoy entrando al metodo agregarPersona");
 		
-		if( !(persona.getNombre().length()<=LOGITUD_MAX)) 
+		if(persona.getNombre().length()<=LOGITUD_MAX) {
+			personaRepository.save(persona);
+		} else {
+			
+			return messages.getMessage(E003, null, LocaleContextHolder.getLocale());
+		}
 		
-		personaRepository.save(persona);
+		
+		return null;
 
 	}
 

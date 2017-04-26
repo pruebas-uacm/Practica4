@@ -21,15 +21,13 @@ import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.ext.mysql.MySqlDataTypeFactory;
 import org.dbunit.operation.DatabaseOperation;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 
 import mx.edu.uacm.registro.Application;
 import mx.edu.uacm.registro.domain.Factura;
@@ -39,7 +37,7 @@ import mx.edu.uacm.registro.domain.repository.PersonaRepository;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes=Application.class)
+@SpringBootTest(classes=Application.class)
 public class PersonaTest {
 	
 	public static final Logger log = Logger.getLogger(PersonaTest.class);
@@ -69,9 +67,18 @@ public class PersonaTest {
 		 IDataSet dataSetPersona = builder.build(new File(System.getProperty("user.dir") + System.getProperty("file.separator")
 			+ "datasets/persona.xml"));
 		
+		
+		 DatabaseOperation.DELETE_ALL.execute(connection, dataSetFactura);
+		 DatabaseOperation.DELETE_ALL.execute(connection, dataSetPersona);
 		 
-		 DatabaseOperation.CLEAN_INSERT.execute(connection, dataSetPersona);
-		 DatabaseOperation.CLEAN_INSERT.execute(connection, dataSetFactura);
+
+		 DatabaseOperation.INSERT.execute(connection, dataSetPersona);
+		 DatabaseOperation.INSERT.execute(connection, dataSetFactura);
+		
+		 
+		 
+		
+		 
 		 
 	}
 	
@@ -94,6 +101,21 @@ public class PersonaTest {
 		//modificando el nombre de la persona obtenida
 		personaObtenida.setNombre(nombrePersona);
 		
+		//creando mi factura
+		Factura fac1 = new Factura(new Date(), 1000.0);
+		
+		//Se reliza la relacion manytoone
+		fac1.setPersona(personaObtenida);
+		
+		//creando mi coleccion de facturas
+		List<Factura> facturas = new ArrayList<Factura>();
+		
+		//agregando mi factura a la coleccion de factuas
+		facturas.add(fac1);
+		
+		//pasando las facturas a la persona
+		personaObtenida.setFacturas(facturas);
+		
 		//persistencia de la entidad persona
 		personaRepository.save(personaObtenida);
 		
@@ -104,7 +126,8 @@ public class PersonaTest {
 		Assert.assertTrue(
 				nombrePersona.equals(
 						personaObtenida.getNombre()));
-
+		
+		log.debug(personaObtenida.getFacturas().size());
 		
 	}
 	
@@ -123,10 +146,9 @@ public class PersonaTest {
 		 IDataSet dataSetPersona = builder.build(new File(System.getProperty("user.dir") + System.getProperty("file.separator")
 			+ "datasets/persona.xml"));
 		 
-		 DatabaseOperation.DELETE.execute(connection, dataSetFactura);
-		 DatabaseOperation.DELETE.execute(connection, dataSetPersona);
+		 DatabaseOperation.DELETE_ALL.execute(connection, dataSetFactura);
+		 DatabaseOperation.DELETE_ALL.execute(connection, dataSetPersona);
 		
-		 
 	}
 
 }
